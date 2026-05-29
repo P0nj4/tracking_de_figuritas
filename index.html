@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planilla de Control – Mundial 2026</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #111;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 12px;
+    }
+
+    .planilla {
+      background: #fff;
+      max-width: 1280px;
+      margin: 0 auto;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+    }
+
+    /* ── Header ─────────────────────────────────────────── */
+    .header {
+      background: #1a7c1a;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      gap: 12px;
+    }
+    .header-left { flex: 1; }
+    .header-title {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+    .header-sub {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      opacity: 0.85;
+      margin-top: 2px;
+    }
+    .header-right {
+      font-size: 9px;
+      text-align: right;
+      opacity: 0.7;
+      white-space: nowrap;
+    }
+
+    /* ── Grid ────────────────────────────────────────────── */
+    .grid {
+      padding: 4px 6px 6px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #e8e8e8;
+      min-height: 22px;
+    }
+    .row:last-child { border-bottom: none; }
+    .row:hover { background: #f5fdf5; }
+
+    .flag-cell {
+      width: 28px;
+      min-width: 28px;
+      text-align: center;
+      font-size: 16px;
+      line-height: 1;
+      padding: 1px 0;
+    }
+
+    .code-cell {
+      width: 34px;
+      min-width: 34px;
+      font-size: 7.5px;
+      font-weight: 700;
+      text-align: center;
+      color: #333;
+      letter-spacing: 0.3px;
+    }
+
+    .stickers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      padding: 2px 0 2px 2px;
+      flex: 1;
+    }
+
+    .sticker {
+      width: 38px;
+      height: 17px;
+      border: 1px solid #bbb;
+      border-radius: 2px;
+      font-size: 7px;
+      font-weight: 600;
+      text-align: center;
+      line-height: 17px;
+      color: #333;
+      background: #fff;
+      letter-spacing: 0.2px;
+      user-select: none;
+    }
+
+    .sticker.pegada {
+      background: #333;
+      color: #fff;
+      border-color: #333;
+    }
+    .row-fwc .sticker.pegada {
+      background: #1a7c1a;
+      color: #fff;
+      border-color: #1a7c1a;
+    }
+    .row-cc .sticker.pegada {
+      background: #b8860b;
+      color: #fff;
+      border-color: #b8860b;
+    }
+
+    /* FWC stickers – teal tint */
+    .row-fwc .sticker {
+      background: #e6f4ea;
+      border-color: #4caf50;
+      color: #1a6e1a;
+    }
+    .row-fwc .code-cell {
+      color: #1a7c1a;
+      font-size: 8px;
+    }
+
+    /* CC stickers – gold tint */
+    .row-cc .sticker {
+      background: #fff8e1;
+      border-color: #ffc107;
+      color: #7a5a00;
+    }
+    .row-cc .code-cell {
+      color: #7a5a00;
+      font-size: 8px;
+    }
+
+    /* Alternating row backgrounds (every 2 country rows) */
+    .row-alt { background: #fafafa; }
+    .row-alt:hover { background: #f0f8f0; }
+
+    /* Section divider between FWC top / countries / FWC bottom+CC */
+    .divider {
+      height: 3px;
+      background: #1a7c1a;
+    }
+
+    @media (max-width: 700px) {
+      .sticker { width: 32px; height: 15px; line-height: 15px; font-size: 6.5px; }
+      .header-title { font-size: 15px; }
+    }
+
+    @media print {
+      @page { size: A4 portrait; margin: 5mm; }
+
+      /* Forzar impresión de colores de fondo */
+      * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      body { background: white; padding: 0; }
+
+      /* Forzar que el planilla respete el ancho del papel, no el viewport */
+      .planilla { box-shadow: none; width: 100%; max-width: 100%; }
+
+      .header { padding: 2mm 3mm; }
+      .header-title { font-size: 4mm; letter-spacing: 0.5mm; }
+      .header-sub { font-size: 2.2mm; margin-top: 0.5mm; }
+      .header-right { font-size: 2mm; }
+
+      .grid { padding: 0.5mm 1mm; }
+
+      .row { min-height: 0; border-bottom-color: #ccc; }
+      .row:hover { background: inherit; }
+
+      /* A4 útil = 200mm. Flag 5mm + Code 7mm + 20 stickers × 8.5mm + 19 gaps × 0.3mm ≈ 184mm */
+      .flag-cell { width: 5mm; min-width: 5mm; font-size: 2.8mm; padding: 0; }
+      .code-cell  { width: 7mm; min-width: 7mm; font-size: 1.8mm; }
+
+      .stickers { flex-wrap: nowrap; gap: 0.3mm; padding: 0.4mm 0 0.4mm 0.5mm; }
+
+      .sticker {
+        flex: none;
+        width: 8.5mm;
+        height: 4mm;
+        line-height: 4mm;
+        font-size: 1.9mm;
+        border-radius: 0.4mm;
+        letter-spacing: 0;
+        border-width: 0.3mm;
+      }
+
+      .divider { height: 0.8mm; }
+    }
+  </style>
+</head>
+<body>
+<div class="planilla">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="header-title">Planilla de Control</div>
+      <div class="header-sub">MUNDIAL 2026 &mdash; FIFA WORLD CUP 2026</div>
+    </div>
+    <div class="header-right">ideasparaimprimir.com</div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+</div>
+
+<script>
+const FWC_TOP_COUNT = 8;
+const FWC_BOTTOM_START = 9;
+const FWC_BOTTOM_END = 19;
+const CC_COUNT = 14;
+
+const COUNTRIES = [
+  { code: 'MEX', name: 'México',              flag: '🇲🇽' },
+  { code: 'RSA', name: 'Sudáfrica',           flag: '🇿🇦' },
+  { code: 'KOR', name: 'Corea del Sur',       flag: '🇰🇷' },
+  { code: 'CZE', name: 'Rep. Checa',          flag: '🇨🇿' },
+  { code: 'CAN', name: 'Canadá',              flag: '🇨🇦' },
+  { code: 'BIH', name: 'Bosnia-Herzegovina',  flag: '🇧🇦' },
+  { code: 'QAT', name: 'Qatar',               flag: '🇶🇦' },
+  { code: 'SUI', name: 'Suiza',               flag: '🇨🇭' },
+  { code: 'BRA', name: 'Brasil',              flag: '🇧🇷' },
+  { code: 'MAR', name: 'Marruecos',           flag: '🇲🇦' },
+  { code: 'HAI', name: 'Haití',               flag: '🇭🇹' },
+  { code: 'SCO', name: 'Escocia',             flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿' },
+  { code: 'USA', name: 'Estados Unidos',      flag: '🇺🇸' },
+  { code: 'PAR', name: 'Paraguay',            flag: '🇵🇾' },
+  { code: 'AUS', name: 'Australia',           flag: '🇦🇺' },
+  { code: 'TUR', name: 'Turquía',             flag: '🇹🇷' },
+  { code: 'GER', name: 'Alemania',            flag: '🇩🇪' },
+  { code: 'CUW', name: 'Curaçao',             flag: '🇨🇼' },
+  { code: 'CIV', name: 'Costa de Marfil',     flag: '🇨🇮' },
+  { code: 'ECU', name: 'Ecuador',             flag: '🇪🇨' },
+  { code: 'NED', name: 'Países Bajos',        flag: '🇳🇱' },
+  { code: 'JPN', name: 'Japón',               flag: '🇯🇵' },
+  { code: 'SWE', name: 'Suecia',              flag: '🇸🇪' },
+  { code: 'TUN', name: 'Túnez',               flag: '🇹🇳' },
+  { code: 'BEL', name: 'Bélgica',             flag: '🇧🇪' },
+  { code: 'EGY', name: 'Egipto',              flag: '🇪🇬' },
+  { code: 'IRN', name: 'Irán',                flag: '🇮🇷' },
+  { code: 'NZL', name: 'Nueva Zelanda',       flag: '🇳🇿' },
+  { code: 'ESP', name: 'España',              flag: '🇪🇸' },
+  { code: 'CPV', name: 'Cabo Verde',          flag: '🇨🇻' },
+  { code: 'KSA', name: 'Arabia Saudita',      flag: '🇸🇦' },
+  { code: 'URU', name: 'Uruguay',             flag: '🇺🇾' },
+  { code: 'FRA', name: 'Francia',             flag: '🇫🇷' },
+  { code: 'SEN', name: 'Senegal',             flag: '🇸🇳' },
+  { code: 'IRQ', name: 'Iraq',                flag: '🇮🇶' },
+  { code: 'NOR', name: 'Noruega',             flag: '🇳🇴' },
+  { code: 'ARG', name: 'Argentina',           flag: '🇦🇷' },
+  { code: 'ALG', name: 'Argelia',             flag: '🇩🇿' },
+  { code: 'AUT', name: 'Austria',             flag: '🇦🇹' },
+  { code: 'JOR', name: 'Jordania',            flag: '🇯🇴' },
+  { code: 'POR', name: 'Portugal',            flag: '🇵🇹' },
+  { code: 'COD', name: 'R.D. Congo',          flag: '🇨🇩' },
+  { code: 'UZB', name: 'Uzbekistán',          flag: '🇺🇿' },
+  { code: 'COL', name: 'Colombia',            flag: '🇨🇴' },
+  { code: 'ENG', name: 'Inglaterra',          flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+  { code: 'CRO', name: 'Croacia',             flag: '🇭🇷' },
+  { code: 'GHA', name: 'Ghana',               flag: '🇬🇭' },
+  { code: 'PAN', name: 'Panamá',              flag: '🇵🇦' },
+];
+
+// Figuritas ya pegadas en el álbum
+// Datos derivados de análisis de fotos del álbum (Mayo 2026).
+// Países sin foto (BIH, MAR, BEL, FRA, IRQ) mantienen datos originales.
+const PEGADAS = new Set([
+  // MEX - foto analizada
+  'MEX1','MEX2','MEX3','MEX4','MEX6','MEX7','MEX9','MEX10','MEX11','MEX13','MEX15','MEX16','MEX17','MEX19','MEX20',
+  // RSA - foto analizada
+  'RSA1','RSA2','RSA3','RSA4','RSA6','RSA7','RSA8','RSA10','RSA11','RSA12','RSA14','RSA15','RSA17','RSA19','RSA20',
+  // KOR - foto analizada
+  'KOR1','KOR2','KOR3','KOR4','KOR5','KOR6','KOR7','KOR8','KOR9','KOR10','KOR15','KOR19',
+  // CZE - foto analizada
+  'CZE3','CZE4','CZE5','CZE6','CZE7','CZE8','CZE9','CZE10','CZE11','CZE12','CZE13','CZE14','CZE19','CZE20',
+  // CAN - foto analizada
+  'CAN2','CAN3','CAN4','CAN5','CAN6','CAN7','CAN8','CAN9','CAN10','CAN11','CAN12','CAN14','CAN15','CAN17','CAN19','CAN20',
+  // BIH - sin foto, datos originales
+  'BIH1','BIH2','BIH4','BIH5','BIH8','BIH9','BIH12','BIH14','BIH15','BIH16','BIH17','BIH18','BIH19','BIH20',
+  // QAT - foto analizada
+  'QAT1','QAT2','QAT3','QAT4','QAT5','QAT6','QAT7','QAT8','QAT9','QAT11','QAT12','QAT13','QAT14','QAT16','QAT19','QAT20',
+  // SUI - foto analizada
+  'SUI1','SUI4','SUI7','SUI8','SUI9','SUI13','SUI15','SUI16',
+  // BRA - foto analizada
+  'BRA5','BRA6','BRA9','BRA10','BRA14','BRA15','BRA17','BRA18','BRA19',
+  // MAR - sin foto, datos originales
+  'MAR2','MAR4','MAR5','MAR6','MAR8','MAR9','MAR10','MAR12','MAR13','MAR14','MAR17','MAR18','MAR19',
+  // HAI - foto analizada
+  'HAI1','HAI6','HAI10','HAI14',
+  // SCO - foto analizada
+  'SCO2','SCO3','SCO4','SCO6','SCO7','SCO8','SCO9','SCO11','SCO12','SCO13','SCO20',
+  // USA - foto analizada
+  'USA2','USA5','USA6','USA7','USA9','USA11','USA12','USA13','USA14','USA15','USA18','USA20',
+  // PAR - foto analizada
+  'PAR1','PAR3','PAR4','PAR5','PAR6','PAR8','PAR9','PAR12','PAR14','PAR17','PAR18',
+  // AUS - foto analizada
+  'AUS1','AUS6','AUS10','AUS11','AUS17','AUS20',
+  // TUR - foto analizada
+  'TUR2','TUR3','TUR6','TUR7','TUR8','TUR9','TUR12','TUR13','TUR14','TUR15','TUR16',
+  // GER - foto analizada
+  'GER1','GER2','GER3','GER4','GER5','GER6','GER10','GER11','GER12','GER13',
+  // CUW - foto analizada (datos originales por análisis incompleto)
+  'CUW1','CUW4','CUW5','CUW6','CUW8','CUW13','CUW18','CUW20',
+  // CIV - foto analizada
+  'CIV1','CIV2','CIV3','CIV4','CIV5','CIV6','CIV7','CIV8','CIV13','CIV14','CIV15','CIV16','CIV17','CIV18','CIV19','CIV20',
+  // ECU - foto analizada
+  'ECU1','ECU2','ECU3','ECU4','ECU5','ECU6','ECU13','ECU14','ECU15','ECU16','ECU17','ECU18','ECU19','ECU20',
+  // NED - foto analizada
+  'NED1','NED2','NED3','NED4','NED5','NED6','NED7','NED8','NED9','NED10','NED11','NED12','NED13','NED14','NED15','NED16','NED17','NED18',
+  // JPN - foto analizada
+  'JPN1','JPN2','JPN3','JPN4','JPN5','JPN7','JPN8','JPN9','JPN15',
+  // SWE - foto analizada
+  'SWE1','SWE2','SWE3','SWE4','SWE5','SWE6','SWE7','SWE8','SWE9','SWE10','SWE11','SWE12','SWE13','SWE14','SWE16','SWE17','SWE18','SWE19','SWE20',
+  // TUN - foto analizada
+  'TUN1','TUN2','TUN3','TUN6','TUN7','TUN9','TUN10','TUN13','TUN14','TUN16','TUN17',
+  // BEL - sin foto, datos originales
+  'BEL1','BEL2','BEL5','BEL7','BEL9','BEL10','BEL12','BEL14','BEL16','BEL19',
+  // EGY - foto analizada
+  'EGY2','EGY3','EGY4','EGY5','EGY7','EGY8','EGY10','EGY11','EGY13','EGY14','EGY16','EGY17','EGY19',
+  // IRN - foto analizada
+  'IRN1','IRN2','IRN3','IRN5','IRN6','IRN9','IRN10','IRN13','IRN14','IRN16','IRN17',
+  // NZL - foto analizada
+  'NZL1','NZL2','NZL3','NZL5','NZL6','NZL9','NZL10','NZL11','NZL14','NZL15','NZL17',
+  // ESP - foto analizada
+  'ESP1','ESP2','ESP3','ESP5','ESP6','ESP9','ESP10','ESP12','ESP13','ESP15','ESP16','ESP17','ESP18',
+  // CPV - foto analizada
+  'CPV1','CPV2','CPV3','CPV5','CPV6','CPV9','CPV10','CPV12','CPV13','CPV15','CPV16',
+  // KSA - foto analizada
+  'KSA2','KSA3','KSA5','KSA6','KSA9','KSA10','KSA12','KSA13','KSA14','KSA16','KSA17',
+  // URU - foto analizada
+  'URU1','URU2','URU3','URU4','URU5','URU6','URU7','URU8','URU9','URU11','URU12','URU13','URU14','URU16','URU17','URU18','URU19','URU20',
+  // FRA - sin foto, datos originales
+  'FRA1','FRA2','FRA4','FRA5','FRA6','FRA8','FRA9','FRA10','FRA13','FRA14','FRA15','FRA16','FRA17','FRA18','FRA19',
+  // SEN - foto analizada
+  'SEN1','SEN2','SEN3','SEN5','SEN6','SEN9','SEN10','SEN14','SEN15','SEN16','SEN19','SEN20',
+  // IRQ - sin foto, datos originales
+  'IRQ1','IRQ4','IRQ5','IRQ6','IRQ7','IRQ8','IRQ10','IRQ12','IRQ13','IRQ15',
+  // NOR - foto analizada
+  'NOR1','NOR2','NOR3','NOR5','NOR7','NOR9','NOR11','NOR16','NOR18','NOR19','NOR20',
+  // ARG - foto analizada
+  'ARG2','ARG3','ARG4','ARG5','ARG6','ARG7','ARG8','ARG9','ARG11','ARG12','ARG13','ARG16','ARG17','ARG18','ARG19','ARG20',
+  // ALG - foto analizada
+  'ALG3','ALG5','ALG6','ALG10','ALG13','ALG14','ALG15','ALG16','ALG17','ALG18','ALG19',
+  // AUT - foto analizada
+  'AUT3','AUT6','AUT10','AUT13','AUT14','AUT15','AUT19',
+  // JOR - foto analizada
+  'JOR3','JOR5','JOR6','JOR7','JOR12','JOR13','JOR14',
+  // POR - foto analizada
+  'POR1','POR2','POR3','POR4','POR6','POR7','POR8','POR10','POR11','POR12','POR14','POR15','POR19','POR20',
+  // COD - foto analizada
+  'COD1','COD2','COD3','COD7','COD8','COD13','COD17',
+  // UZB - foto analizada
+  'UZB1','UZB2','UZB3','UZB4','UZB6','UZB7','UZB8','UZB11','UZB12','UZB14','UZB15','UZB18','UZB19','UZB20',
+  // COL - foto analizada
+  'COL1','COL2','COL3','COL4','COL6','COL7','COL8','COL11','COL15','COL19','COL20',
+  // ENG - foto analizada
+  'ENG1','ENG2','ENG3','ENG4','ENG6','ENG7','ENG8','ENG9','ENG11','ENG15','ENG16','ENG17','ENG19','ENG20',
+  // CRO - foto analizada
+  'CRO3','CRO4','CRO5','CRO6','CRO7','CRO8','CRO9','CRO11','CRO12','CRO14','CRO17','CRO19',
+  // GHA - foto analizada
+  'GHA1','GHA2','GHA3','GHA5','GHA6','GHA7','GHA8','GHA15','GHA17','GHA18',
+  // PAN - foto analizada
+  'PAN1','PAN2','PAN3','PAN5','PAN7','PAN8','PAN14','PAN18','PAN19',
+]);
+
+const grid = document.getElementById('grid');
+
+function makeRow(code, flag, stickers, extraClass = '') {
+  const row = document.createElement('div');
+  row.className = 'row' + (extraClass ? ' ' + extraClass : '');
+
+  const flagCell = document.createElement('div');
+  flagCell.className = 'flag-cell';
+  flagCell.textContent = flag;
+  flagCell.title = code;
+  row.appendChild(flagCell);
+
+  const codeCell = document.createElement('div');
+  codeCell.className = 'code-cell';
+  codeCell.textContent = code;
+  row.appendChild(codeCell);
+
+  const stickersDiv = document.createElement('div');
+  stickersDiv.className = 'stickers';
+
+  for (const label of stickers) {
+    const s = document.createElement('div');
+    s.className = 'sticker' + (PEGADAS.has(label) ? ' pegada' : '');
+    s.textContent = label;
+    s.title = label;
+    stickersDiv.appendChild(s);
+  }
+
+  row.appendChild(stickersDiv);
+  return row;
+}
+
+function range(code, from, to) {
+  const arr = [];
+  for (let i = from; i <= to; i++) arr.push(code + i);
+  return arr;
+}
+
+// ── FWC top (1-8) ──────────────────────────────────────
+grid.appendChild(makeRow('FWC', '🏆', range('FWC', 1, FWC_TOP_COUNT), 'row-fwc'));
+
+const divider1 = document.createElement('div');
+divider1.className = 'divider';
+grid.appendChild(divider1);
+
+// ── Countries ──────────────────────────────────────────
+COUNTRIES.forEach((c, i) => {
+  const alt = i % 2 === 1 ? 'row-alt' : '';
+  grid.appendChild(makeRow(c.code, c.flag, range(c.code, 1, 20), alt));
+});
+
+const divider2 = document.createElement('div');
+divider2.className = 'divider';
+grid.appendChild(divider2);
+
+// ── FWC bottom (9-19) ──────────────────────────────────
+grid.appendChild(makeRow('FWC', '🏆', range('FWC', FWC_BOTTOM_START, FWC_BOTTOM_END), 'row-fwc'));
+
+// ── CC (1-14) ──────────────────────────────────────────
+grid.appendChild(makeRow('CC', '🏅', range('CC', 1, CC_COUNT), 'row-cc'));
+</script>
+</body>
+</html>
