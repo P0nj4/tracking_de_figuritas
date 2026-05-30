@@ -163,7 +163,30 @@
       .header-title { font-size: 15px; }
     }
 
+    /* ── Search ─────────────────────────────────────────── */
+    .search-bar {
+      padding: 8px 10px;
+      background: #f4f4f4;
+      border-bottom: 1px solid #ddd;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 6px 10px;
+      font-size: 13px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+      font-family: inherit;
+    }
+    .search-bar input:focus {
+      border-color: #1a7c1a;
+      box-shadow: 0 0 0 2px rgba(26,124,26,0.15);
+    }
+    .row.hidden { display: none; }
+
     @media print {
+      .search-bar { display: none; }
+
       @page { size: A4 portrait; margin: 5mm; }
 
       /* Forzar impresión de colores de fondo */
@@ -217,6 +240,10 @@
       <div class="header-sub">MUNDIAL 2026 &mdash; FIFA WORLD CUP 2026</div>
     </div>
     <div class="header-right">ideasparaimprimir.com</div>
+  </div>
+
+  <div class="search-bar">
+    <input type="text" id="search" placeholder="Buscar país… ej: KOR o Corea" autocomplete="off" autocorrect="off" spellcheck="false">
   </div>
 
   <div class="grid" id="grid"></div>
@@ -430,9 +457,14 @@ divider1.className = 'divider';
 grid.appendChild(divider1);
 
 // ── Countries ──────────────────────────────────────────
+const countryRows = [];
 COUNTRIES.forEach((c, i) => {
   const alt = i % 2 === 1 ? 'row-alt' : '';
-  grid.appendChild(makeRow(c.code, c.flag, range(c.code, 1, 20), alt));
+  const row = makeRow(c.code, c.flag, range(c.code, 1, 20), alt);
+  row.dataset.code = c.code.toLowerCase();
+  row.dataset.name = c.name.toLowerCase();
+  grid.appendChild(row);
+  countryRows.push(row);
 });
 
 const divider2 = document.createElement('div');
@@ -444,6 +476,21 @@ grid.appendChild(makeRow('FWC', '🏆', range('FWC', FWC_BOTTOM_START, FWC_BOTTO
 
 // ── CC (1-14) ──────────────────────────────────────────
 grid.appendChild(makeRow('CC', '🏅', range('CC', 1, CC_COUNT), 'row-cc'));
+
+// ── Search ─────────────────────────────────────────────
+document.getElementById('search').addEventListener('input', function () {
+  const raw = this.value.trim();
+  if (!raw) {
+    countryRows.forEach(r => r.classList.remove('hidden'));
+    return;
+  }
+  let regex;
+  try { regex = new RegExp(raw, 'i'); } catch { regex = new RegExp(raw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'); }
+  countryRows.forEach(r => {
+    const match = regex.test(r.dataset.code) || regex.test(r.dataset.name);
+    r.classList.toggle('hidden', !match);
+  });
+});
 </script>
 </body>
 </html>
