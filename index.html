@@ -312,15 +312,15 @@ const COUNTRIES = [
 // Países sin foto (BIH, MAR, BEL, FRA, IRQ) mantienen datos originales.
 const PEGADAS = new Set([
   // MEX - actualizado por usuario
-  'MEX1','MEX2','MEX3','MEX4','MEX6','MEX7','MEX9','MEX10','MEX11','MEX13','MEX15','MEX16','MEX17','MEX19','MEX20',
+  'MEX1','MEX2','MEX3','MEX4','MEX6','MEX7','MEX8','MEX9','MEX10','MEX11','MEX13','MEX15','MEX16','MEX17','MEX19','MEX20',
   // RSA - actualizado por usuario
   'RSA1','RSA2','RSA3','RSA4','RSA5','RSA6','RSA8','RSA9','RSA10','RSA11','RSA12','RSA14','RSA17','RSA19','RSA20',
   // KOR - actualizado por usuario
-  'KOR1','KOR2','KOR4','KOR5','KOR6','KOR7','KOR8','KOR10','KOR12','KOR13','KOR17',
+  'KOR1','KOR2','KOR4','KOR5','KOR6','KOR7','KOR8','KOR10','KOR12','KOR13','KOR14','KOR17',
   // CZE - actualizado por usuario
   'CZE1','CZE3','CZE4','CZE5','CZE7','CZE8','CZE9','CZE10','CZE11','CZE12','CZE13','CZE14','CZE15','CZE20',
   // CAN - actualizado por usuario
-  'CAN2','CAN3','CAN4','CAN7','CAN8','CAN9','CAN10','CAN11','CAN12','CAN14','CAN15','CAN17','CAN19','CAN20',
+  'CAN1','CAN2','CAN3','CAN4','CAN6','CAN7','CAN8','CAN9','CAN10','CAN11','CAN12','CAN14','CAN15','CAN17','CAN19','CAN20',
   // BIH - actualizado por usuario
   'BIH1','BIH2','BIH4','BIH5','BIH8','BIH9','BIH11','BIH12','BIH13','BIH14','BIH15','BIH16','BIH17','BIH18','BIH19','BIH20',
   // QAT - actualizado por usuario
@@ -328,39 +328,39 @@ const PEGADAS = new Set([
   // SUI - sin actualizar
   'SUI1','SUI4','SUI7','SUI8','SUI9','SUI13','SUI15','SUI16',
   // BRA - actualizado por usuario
-  'BRA5','BRA6','BRA9','BRA10','BRA12','BRA14','BRA15','BRA17','BRA18','BRA19',
+  'BRA2','BRA5','BRA6','BRA7','BRA9','BRA10','BRA12','BRA14','BRA15','BRA17','BRA18','BRA19',
   // MAR - actualizado por usuario
-  'MAR2','MAR4','MAR5','MAR6','MAR8','MAR9','MAR10','MAR12','MAR13','MAR14','MAR17','MAR18','MAR19',
+  'MAR2','MAR3','MAR4','MAR5','MAR6','MAR8','MAR9','MAR10','MAR12','MAR13','MAR14','MAR17','MAR18','MAR19',
   // HAI - actualizado por usuario
   'HAI1','HAI2','HAI5','HAI6','HAI8','HAI9','HAI10','HAI12','HAI14','HAI15','HAI19','HAI20',
   // SCO - actualizado por usuario
-  'SCO2','SCO3','SCO4','SCO6','SCO7','SCO8','SCO9','SCO11','SCO12','SCO17','SCO20',
+  'SCO2','SCO3','SCO4','SCO5','SCO6','SCO7','SCO8','SCO9','SCO11','SCO12','SCO17','SCO20',
   // USA - actualizado por usuario
   'USA2','USA3','USA5','USA6','USA7','USA9','USA11','USA12','USA13','USA14','USA15','USA18','USA20',
   // PAR - actualizado por usuario
   'PAR1','PAR3','PAR4','PAR5','PAR6','PAR7','PAR8','PAR9','PAR12','PAR14','PAR16','PAR17','PAR18',
   // AUS - actualizado por usuario
-  'AUS1','AUS2','AUS6','AUS10','AUS11','AUS16','AUS17','AUS20',
+  'AUS1','AUS2','AUS6','AUS8','AUS10','AUS11','AUS16','AUS17','AUS18','AUS20',
   // TUR - actualizado por usuario
   'TUR2','TUR3','TUR4','TUR6','TUR7','TUR8','TUR9','TUR11','TUR12','TUR13','TUR14','TUR15','TUR16',
   // GER - actualizado por usuario
-  'GER2','GER5','GER6','GER7','GER8','GER9','GER10','GER12','GER13','GER14','GER15','GER18','GER19',
+  'GER1','GER2','GER5','GER6','GER7','GER8','GER9','GER10','GER12','GER13','GER14','GER15','GER18','GER19',
   // CUW - actualizado por usuario
-  'CUW1','CUW4','CUW5','CUW6','CUW8','CUW10','CUW13','CUW15','CUW18','CUW19','CUW20',
+  'CUW1','CUW4','CUW5','CUW6','CUW7','CUW8','CUW10','CUW13','CUW15','CUW18','CUW19','CUW20',
   // CIV - actualizado por usuario
-  'CIV2','CIV3','CIV4','CIV5','CIV6','CIV7','CIV8','CIV9','CIV12','CIV14','CIV15','CIV16','CIV17','CIV18',
+  'CIV2','CIV3','CIV4','CIV5','CIV6','CIV7','CIV8','CIV9','CIV12','CIV13','CIV14','CIV15','CIV16','CIV17','CIV18',
   // ECU - actualizado por usuario
   'ECU3','ECU4','ECU5','ECU6','ECU7','ECU11','ECU15','ECU16','ECU19','ECU20',
   // NED - actualizado por usuario
-  'NED1','NED2','NED3','NED4','NED6','NED7','NED8','NED9','NED10','NED11','NED12','NED13','NED14','NED15','NED16','NED17','NED18','NED19','NED20',
+  'NED1','NED2','NED3','NED4','NED5','NED6','NED7','NED8','NED9','NED10','NED11','NED12','NED13','NED14','NED15','NED16','NED17','NED18','NED19','NED20',
   // JPN - actualizado por usuario
-  'JPN1','JPN3','JPN4','JPN8','JPN9','JPN11','JPN12','JPN13','JPN15','JPN16','JPN17','JPN19','JPN20',
+  'JPN1','JPN3','JPN4','JPN7','JPN8','JPN9','JPN11','JPN12','JPN13','JPN15','JPN16','JPN17','JPN19','JPN20',
   // SWE - actualizado por usuario
-  'SWE1','SWE2','SWE3','SWE4','SWE6','SWE7','SWE8','SWE9','SWE11','SWE12','SWE15','SWE16','SWE17','SWE19','SWE20',
+  'SWE1','SWE2','SWE3','SWE4','SWE6','SWE7','SWE8','SWE9','SWE11','SWE12','SWE13','SWE15','SWE16','SWE17','SWE19','SWE20',
   // TUN - actualizado por usuario
   'TUN2','TUN3','TUN4','TUN5','TUN6','TUN8','TUN9','TUN10','TUN11','TUN12','TUN13','TUN14','TUN15','TUN16','TUN17','TUN18','TUN20',
   // BEL - actualizado por usuario
-  'BEL1','BEL2','BEL4','BEL5','BEL7','BEL8','BEL9','BEL10','BEL12','BEL14','BEL16','BEL18','BEL19','BEL20',
+  'BEL1','BEL2','BEL4','BEL5','BEL6','BEL7','BEL8','BEL9','BEL10','BEL12','BEL14','BEL16','BEL18','BEL19','BEL20',
   // EGY - actualizado por usuario
   'EGY1','EGY4','EGY5','EGY6','EGY7','EGY9','EGY10','EGY11','EGY12','EGY14','EGY15','EGY17','EGY18','EGY19',
   // IRN - actualizado por usuario
@@ -382,11 +382,11 @@ const PEGADAS = new Set([
   // IRQ - actualizado por usuario
   'IRQ1','IRQ4','IRQ5','IRQ6','IRQ7','IRQ8','IRQ10','IRQ12','IRQ13','IRQ14','IRQ15',
   // NOR - actualizado por usuario
-  'NOR2','NOR3','NOR4','NOR6','NOR7','NOR8','NOR10','NOR11','NOR12','NOR17','NOR19','NOR20',
+  'NOR2','NOR3','NOR4','NOR6','NOR7','NOR8','NOR10','NOR11','NOR12','NOR16','NOR17','NOR19','NOR20',
   // ARG - actualizado por usuario
   'ARG1','ARG2','ARG3','ARG4','ARG5','ARG6','ARG7','ARG9','ARG13','ARG15','ARG18','ARG19','ARG20',
   // ALG - actualizado por usuario
-  'ALG2','ALG4','ALG5','ALG7','ALG8','ALG9','ALG11','ALG14','ALG15','ALG16','ALG20',
+  'ALG2','ALG4','ALG5','ALG6','ALG7','ALG8','ALG9','ALG11','ALG14','ALG15','ALG16','ALG20',
   // AUT - actualizado por usuario
   'AUT2','AUT5','AUT6','AUT7','AUT9','AUT11','AUT13','AUT14','AUT15','AUT16','AUT18','AUT19',
   // JOR - actualizado por usuario
@@ -400,7 +400,7 @@ const PEGADAS = new Set([
   // COL - actualizado por usuario
   'COL1','COL2','COL3','COL6','COL7','COL10','COL11','COL12','COL14','COL15','COL16','COL17','COL18','COL19','COL20',
   // ENG - actualizado por usuario
-  'ENG1','ENG3','ENG4','ENG6','ENG7','ENG8','ENG9','ENG12','ENG13','ENG15','ENG16','ENG17','ENG19','ENG20',
+  'ENG1','ENG3','ENG4','ENG6','ENG7','ENG8','ENG9','ENG10','ENG12','ENG13','ENG15','ENG16','ENG17','ENG19','ENG20',
   // CRO - actualizado por usuario
   'CRO1','CRO2','CRO3','CRO4','CRO6','CRO7','CRO10','CRO11','CRO15','CRO16','CRO18','CRO19','CRO20',
   // GHA - actualizado por usuario
